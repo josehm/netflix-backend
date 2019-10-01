@@ -1,0 +1,31 @@
+const NODE_ENV = process.env.NODE_ENV || "dev";
+const ENVS = {
+    dev: {
+        SECRET : "cloudinarySecret",
+        CLOUD_NAME : "cloudinaryName",
+        API_KEY :"cloudinaryKey",
+        API_SECRET: "cloudinarySecret",
+        db:{
+            URL: "mongoDB"
+        }
+    },
+    test:{
+        SECRET : "cloudinarySecret",
+        CLOUD_NAME : "cloudinaryName",
+        API_KEY :"cloudinaryKey",
+        API_SECRET: "cloudinarySecret",
+        db:{
+            URL: "mongoDB"
+        }
+    },
+    production:{
+        SECRET : process.env.SECRET,
+        CLOUD_NAME : process.env.CLOUD_NAME,
+        API_KEY :process.env.API_KEY,
+        API_SECRET: process.env.API_SECRET,
+        db:{
+            URL: process.env.URL
+        }
+    }
+};
+module.exports = ENVS[NODE_ENV];
