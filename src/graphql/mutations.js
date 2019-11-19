@@ -1,11 +1,21 @@
-import { createTag, updateTag, deleteTag } from '../actions/tagActions';
-import { createContent, updateContent } from '../actions/contentActions';
-import { createMedia } from '../actions/mediaActions';
-import { createCategory } from '../actions/categoryActions';
-import {createUser, doLogin} from '../actions/userActions';
-import { storeUpload } from '../utils/uploader';
+import { createGenre} from '../actions/genreActions'
+import { createTag, updateTag, deleteTag } from '../actions/tagActions'
+import { createContent, updateContent, addGenreToContent } from '../actions/contentActions'
+import { createMedia } from '../actions/mediaActions'
+import { createCategory } from '../actions/categoryActions'
+import {createUser, doLogin} from '../actions/userActions'
+import { storeUpload } from '../utils/uploader'
 
 module.exports = {
+    addGenre: async (parent, args, context, info) => await createGenre(args.data),
+    addGenreToContet: async (parent, {contentID, genreID}, context, info) => {
+      try {
+        return await addGenreToContent(contentID, genreID)
+      } catch (error) {
+        return error
+      }
+    },
+
     addTag: async (parent, args, context, info) => await createTag(args.data),
     updateTag: async (parent, { data, tagID }, context, info) => {
       try {
@@ -21,18 +31,34 @@ module.exports = {
         const filter = { _id: tagID };
         return await deleteTag(filter);
       } catch (error) {
-        return error;
+        return error
       }
     },
 
     addContent: async (parent, { data }, context, info) => {
       try {
-        const { createReadStream } = await data.imgHero
-        const stream = createReadStream()
-        const { url } = await storeUpload(stream, {})
+        
+        let imgHeroUrl = ''
+        let overViewLinkUrl = ''
+
+        if(data.imgHero) {
+          const { createReadStream } = await data.imgHero
+          const stream = createReadStream()
+          const { url } = await storeUpload(stream, {})
+          imgHeroUrl = url
+        }
+
+        if(data.overViewLink) {
+          const { createReadStream } = await data.overViewLink
+          const stream = createReadStream()
+          const { url } = await storeUpload(stream, {resource_type: 'video'})
+          overViewLinkUrl = url
+        }
+
         const newContentInfo = {
           ...data,
-          imgHero: url,
+          imgHero: imgHeroUrl,
+          overViewLink: overViewLinkUrl
         }
         return await createContent(newContentInfo)
       } catch (error) {
@@ -88,10 +114,10 @@ module.exports = {
       }
     },
     doLogin: async (parent, { email, password }, context, info) => {
-        try {
-          return await doLogin(email, password);
-        } catch (error) {
-          return error;
-        }
+      try {
+        return await doLogin(email, password);
+      } catch (error) {
+        return error;
       }
+    }
 }

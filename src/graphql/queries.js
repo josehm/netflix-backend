@@ -1,9 +1,17 @@
+import { getGenres } from '../actions/genreActions';
 import { getTags } from '../actions/tagActions';
 import { getContents, getContent } from '../actions/contentActions';
 import { getMedias, getMedia } from '../actions/mediaActions';
 import { getCategories } from '../actions/categoryActions';
 
 module.exports = {
+  getGenres: async (parent, args, context, info) => {
+      try {
+        return await getGenres();
+      } catch (error) {
+        return null;
+      }
+  },
   getTags: async (parent, args, context, info) => {
       try {
         return await getTags();

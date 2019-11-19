@@ -19,9 +19,10 @@ const contentSchema = new schema({
     type: String,
     required: true
   },
-  genres: {
-    type: String
-  },
+  genres: [{
+    type: schema.Types.ObjectId,
+    ref: 'genres'
+  }],
   clasaification: {
     type: String
   },
@@ -32,7 +33,7 @@ const contentSchema = new schema({
     type: schema.Types.ObjectId,
     ref: 'media'
   }],
-  category: [{
+  categories: [{
     type: schema.Types.ObjectId,
     ref: 'categories'
   }],

@@ -1,5 +1,16 @@
 directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
 
+
+type Genre {
+  _id: ID
+  title: String
+  description: String
+}
+input GenreInput {
+  title: String
+  description: String 
+}
+
 type Category {
   _id: ID
   title: String
@@ -27,9 +38,12 @@ type Content {
   description: String!
   releaseDate: String!
   imgHero: String!
-  genres: String
   clasaification: String
   overViewLink: String
+  genres: [Genre]
+  medias: [Media]
+  tags: [Tag]
+  categories: [Category]
 }
 input ContentInput {
   title: String
@@ -96,6 +110,11 @@ type Subscription {
 
 # (A "Mutation" type will be covered later on.)
 type Mutation {
+  "Add genre"
+  addGenre(data: GenreInput) : Genre
+  "Add genre to a content"
+  addGenreToContet(contentID: ID!, genreID: ID!): Content
+  
 	addTag(data: TagInput) : Tag
 	updateTag(data: TagInput, tagID: ID) : Tag
   deleteTag(tagID: ID) : Tag
@@ -111,7 +130,10 @@ type Mutation {
 
 # The "Query" type is the root of all GraphQL queries.
 type Query {
-	getTags: [Tag] @AuthDirective
+	
+  getGenres: [Genre]
+
+  getTags: [Tag] @AuthDirective
   
   getMedias: [Media] @AuthDirective
   getMedia(mediaID: ID): Media @AuthDirective
