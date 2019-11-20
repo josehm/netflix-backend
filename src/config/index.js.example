@@ -1,24 +1,27 @@
 const NODE_ENV = process.env.NODE_ENV || "dev";
 const ENVS = {
     dev: {
+        PORT: 4000,
         SECRET : "cloudinarySecret",
         CLOUD_NAME : "cloudinaryName",
         API_KEY :"cloudinaryKey",
         API_SECRET: "cloudinarySecret",
         db:{
-            URL: "mongoDB"
+            URL: "mongodb+srv://user:pass@example.mongodb.net/database?retryWrites=true&w=majority"
         }
     },
     test:{
+        PORT: 4000,
         SECRET : "cloudinarySecret",
         CLOUD_NAME : "cloudinaryName",
         API_KEY :"cloudinaryKey",
         API_SECRET: "cloudinarySecret",
         db:{
-            URL: "mongoDB"
+            URL: "mongodb+srv://user:pass@example.mongodb.net/database?retryWrites=true&w=majority"
         }
     },
     production:{
+        PORT: process.env.PORT,
         SECRET : process.env.SECRET,
         CLOUD_NAME : process.env.CLOUD_NAME,
         API_KEY :process.env.API_KEY,

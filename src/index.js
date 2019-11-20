@@ -1,5 +1,5 @@
 //require("dotenv").config();
-const {db} = require('./config/index');
+const {db, PORT} = require('./config/index');
 
 import { ApolloServer } from 'apollo-server';
 import mongoose from "mongoose";
@@ -18,8 +18,8 @@ mongoose.connect( db.URL, {
 );
 
 const mongoDB = mongoose.connection;
-mongoDB.on('error', console.error.bind(console, 'Error de conexion !!'));
-mongoDB.on('open', () => console.log('BD conectada !!'));
+mongoDB.on('error', console.error.bind(console, "Error: Couldn't connect with the database!!"));
+mongoDB.on('open', () => console.log('Database connected!!'));
 
 
 const server = new ApolloServer({
@@ -33,8 +33,9 @@ const server = new ApolloServer({
     playground: true,
 });
 
-server.listen(process.env.PORT || 4000).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
+server.listen(PORT || 4000).then(({ url }) => {
+  console.log(` 🎮  Playground ready at ${url} `);
+  console.log(` 🚀  Server ready at ${url}graphql `);
 });
 
 export default server;
