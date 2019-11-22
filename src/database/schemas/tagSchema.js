@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const schema = mongoose.Schema;
+const schema = mongoose.Schema
 
 const tagSchema = new schema({
     title: {
@@ -11,11 +11,10 @@ const tagSchema = new schema({
         type: String,
         required: true
     }
-}, {timestamps:true} );
-
+}, {timestamps:true} )
 
 mongoose.Types.ObjectId.prototype.valueOf = function() {
-    return this.toString();
+  return this.toString()
 }
 
-module.exports = tagSchema;
+module.exports = tagSchema

@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const schema = mongoose.Schema;
+const schema = mongoose.Schema
 
 const mediaSchema = new schema({
     title: {
@@ -33,10 +33,10 @@ const mediaSchema = new schema({
         type: schema.Types.ObjectId,
         required: true,
     }
-}, {timestamps:true} );
+}, {timestamps:true} )
 
 mongoose.Types.ObjectId.prototype.valueOf = function() {
-    return this.toString();
+    return this.toString()
 }
 
-module.exports = mediaSchema;
+module.exports = mediaSchema

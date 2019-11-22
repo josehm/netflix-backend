@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const schema = mongoose.Schema;
+const schema = mongoose.Schema
 
 const contentSchema = new schema({
   title: {
@@ -16,8 +16,7 @@ const contentSchema = new schema({
     required: true
   },
   imgHero: {
-    type: String,
-    required: true
+    type: String
   },
   genres: [{
     type: schema.Types.ObjectId,

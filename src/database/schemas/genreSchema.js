@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const schema = mongoose.Schema;
+const schema = mongoose.Schema
 
 const genreSchema = new schema({
     title: {
@@ -11,11 +11,11 @@ const genreSchema = new schema({
         type: String,
         required: true
     }
-}, {timestamps:true} );
+}, {timestamps:true} )
 
 
 mongoose.Types.ObjectId.prototype.valueOf = function() {
-    return this.toString();
+    return this.toString()
 }
 
-module.exports = genreSchema;
+module.exports = genreSchema
