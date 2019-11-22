@@ -1,11 +1,11 @@
-import {ContentModel, GenreModel, MediaModel} from '../database/models'
+import {ContentModel, GenreModel, MediaModel, SeasonModel} from '../database/models'
 import { ObjectID } from 'mongodb'
 
 export const createContent = async (contentData) => {
     try {
         return await ContentModel.create(contentData)
     } catch (error) {
-        return null
+        return error
     }
 }
 
@@ -13,7 +13,7 @@ export const getContents = async () => {
     try {
       return await ContentModel.find()
     } catch (error) {
-      return null
+      return error
     }
 }
 
@@ -22,7 +22,7 @@ export const getContent = async (filter) => {
     return await ContentModel.findOne(filter)
   } catch (error) {
     console.log(error)
-    return null
+    return error
   }
 }
 
@@ -72,11 +72,22 @@ export const getMedias = async (medias) => {
     const mediasData = ids.length > 0
       ? await MediaModel.find(
         { _id: { $in: ids } }
-      )
+      ).sort({ order: 'asc'})
       : []
     return mediasData
   } catch (error) {
     console.log(error)
     return error
+  }
+}
+
+export const getSeasons = async (contentID) => {
+  try {
+    const seassonData = await SeasonModel.find(
+      { contentID: contentID }
+    ).sort({ order: 'asc'})
+    return seassonData
+  } catch(error) {
+
   }
 }

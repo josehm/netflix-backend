@@ -2,12 +2,13 @@ import { createGenre} from '../actions/genreActions'
 import { createTag, updateTag, deleteTag } from '../actions/tagActions'
 import { createContent, updateContent, addGenreToContent } from '../actions/contentActions'
 import { createMedia } from '../actions/mediaActions'
+import { createSeason } from '../actions/seasonActions'
 import { createCategory } from '../actions/categoryActions'
 import {createUser, doLogin} from '../actions/userActions'
 import { storeUpload } from '../utils/uploader'
 
 module.exports = {
-    addGenre: async (parent, args, context, info) => await createGenre(args.data),
+    addGenre: async (parent, data, context, info) => await createGenre(data),
     addGenreToContet: async (parent, {contentID, genreID}, context, info) => {
       try {
         return await addGenreToContent(contentID, genreID)
@@ -16,7 +17,7 @@ module.exports = {
       }
     },
 
-    addTag: async (parent, args, context, info) => await createTag(args.data),
+    addTag: async (parent, {data}, context, info) => await createTag(data),
     updateTag: async (parent, { data, tagID }, context, info) => {
       try {
         const filter = { _id: tagID };
@@ -37,7 +38,6 @@ module.exports = {
 
     addContent: async (parent, { data }, context, info) => {
       try {
-        
         let imgHeroUrl = ''
         let overViewLinkUrl = ''
 
@@ -83,6 +83,8 @@ module.exports = {
       }
     },
 
+    addSeason: async (parent, {data}, context, info) => await createSeason(data),
+
     addMedia: async (parent, { data }, context, info) => {
       try {
         const { createReadStream } = await data.mediaLink;
@@ -98,19 +100,26 @@ module.exports = {
       }
     },
 
-    addCategory: async (parent, args, context, info) => await createCategory(args.data),
+    addCategory: async (parent, {data}, context, info) => await createCategory(data),
     addUser: async (parent, { data }, context, info) => {
+      let profileImageUrl = ''
+
       try {
-        const { createReadStream } = await data.profileImage;
-        const stream = createReadStream();
-        const { url } = await storeUpload(stream, {});
+        if(data.profileImage){
+          const { createReadStream } = await data.profileImage
+          const stream = createReadStream()
+          const { url } = await storeUpload(stream, {})
+          profileImageUrl = url
+        }
+
         const newUserInfo = {
           ...data,
-          profileImage: url,
+          profileImage: profileImageUrl,
         }
-        return await createUser(newUserInfo);
+
+        return await createUser(newUserInfo)
       } catch (error) {
-        return error;
+        return error
       }
     },
     doLogin: async (parent, { email, password }, context, info) => {
